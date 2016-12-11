@@ -16,7 +16,7 @@ test:
 
 production:
   <<: *default
-  socket: /var/run/mysqld/mysql.sock
+  socket: /var/run/mysqld/mysqld.sock
   database: temp-graph_production
   username: temp-graph
   password: <%= ENV['TEMP-GRAPH_DATABASE_PASSWORD'] %>
