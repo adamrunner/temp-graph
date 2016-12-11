@@ -19,4 +19,4 @@ production:
   socket: /var/run/mysqld/mysqld.sock
   database: temp-graph_production
   username: temp-graph
-  password: <%= ENV['TEMP-GRAPH_DATABASE_PASSWORD'] %>
+  password: <%= ENV['TEMP_GRAPH_DATABASE_PASSWORD'] %>
