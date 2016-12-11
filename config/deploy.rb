@@ -10,7 +10,7 @@ set :repo_url, 'git@github.com:adamrunner/temp-graph.git'
 set :deploy_to, '/var/www/temp.adamrunner.com'
 
 set :rbenv_type, :user
-set :rbenv_ruby, File.read("#{Rails.root}/.ruby-version").strip
+set :rbenv_ruby, File.read('.ruby-version').strip
 
 # Default value for :scm is :git
 # set :scm, :git
