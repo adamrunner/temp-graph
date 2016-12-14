@@ -9,4 +9,11 @@ class TempsController < ApplicationController
       format.any { head :created, content_type: "text/html" }
     end
   end
+
+  def nothing
+    respond_to do |format|
+      format.html { render html: "<strong>OK</strong>".html_safe}
+      format.json { render json: @resource }
+    end
+  end
 end
