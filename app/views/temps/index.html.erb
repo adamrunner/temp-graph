@@ -1,1 +1,11 @@
-<%= render partial: 'sensor', collection: @sensors %>
+<script>
+  window.session_id = "<%= session.id %>"
+</script>
+<div class="card-deck">
+  <%= render partial: 'sensor', collection: @sensors %>
+  <%= render partial: 'led_card' %>
+</div>
+
+<p>
+  <button class="update btn btn-primary">Request Update</button>
+</p>

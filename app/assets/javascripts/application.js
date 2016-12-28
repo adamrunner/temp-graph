@@ -16,17 +16,24 @@
 //= require moment
 //= require_tree .
 
-// Create a client instance
-// client = new Paho.MQTT.Client("home.adamrunner.com", Number(443), "/websockets/mqtt", "rails-app");
-client = new Paho.MQTT.Client("home.adamrunner.com", Number(1200), "rails-app");
-client.connect({onSuccess:onConnect, useSSL: true});
-// set callback handlers
-client.onConnectionLost = onConnectionLost;
-client.onMessageArrived = onMessageArrived;
+function outputUpdate(value) {
+	document.querySelector('#outputLedValue').value = value;
+}
 
-// connect the client
-// client.connect({onSuccess:onConnect, useSSL: true});
+// Create a client instance
+function mqttConnect() {
+  // client = new Paho.MQTT.Client("home.adamrunner.com", Number(1200), "rails-app" + window.session_id);
+  client = new Paho.MQTT.Client("home.adamrunner.com", Number(443), "/websockets/mqtt", "rails-app-" + window.session_id);
+  // set callback handlers
+  client.onConnectionLost = onConnectionLost;
+  client.onMessageArrived = onMessageArrived;
+  // connect the client
+  client.connect({onSuccess:onConnect, useSSL: true});
+}
+
+
 $(function(){
+  mqttConnect();
   $(".update").click(function(e){
     e.preventDefault();
     console.log("requesting update");
@@ -34,6 +41,14 @@ $(function(){
     message.destinationName = "TEMP_REQ";
     client.send(message);
   });
+
+  $(".mqttForm").on("submit", function(event){
+    event.preventDefault();
+    var value = $(event.target).find('.mqttMessage:checked').val() || $(event.target).find('.mqttMessage').val()
+    message = new Paho.MQTT.Message(value);
+    message.destinationName = $(event.target).find('input:hidden').val();
+    client.send(message);
+  })
 })
 
 // called when the client connects
