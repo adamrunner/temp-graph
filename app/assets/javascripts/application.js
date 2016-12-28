@@ -17,14 +17,15 @@
 //= require_tree .
 
 // Create a client instance
-client = new Paho.MQTT.Client("home.adamrunner.com", Number(8883), "rails-app");
-
+// client = new Paho.MQTT.Client("home.adamrunner.com", Number(443), "/websockets/mqtt", "rails-app");
+client = new Paho.MQTT.Client("home.adamrunner.com", Number(1200), "rails-app");
+client.connect({onSuccess:onConnect, useSSL: true});
 // set callback handlers
 client.onConnectionLost = onConnectionLost;
 client.onMessageArrived = onMessageArrived;
 
 // connect the client
-client.connect({onSuccess:onConnect, useSSL: true});
+// client.connect({onSuccess:onConnect, useSSL: true});
 $(function(){
   $(".update").click(function(e){
     e.preventDefault();
@@ -46,6 +47,7 @@ function onConnect() {
 function onConnectionLost(responseObject) {
   if (responseObject.errorCode !== 0) {
     console.log("onConnectionLost:"+responseObject.errorMessage);
+    client.connect({onSuccess:onConnect, useSSL: true});
   }
 }
 
