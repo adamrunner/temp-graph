@@ -1,0 +1,8 @@
+<ul id="<%= sensor.name %>">
+  <li>Name: <%= sensor.name %></li>
+  <li>Description: <%= sensor.description %></li>
+  <li>Latest Temp: <span class="temp"><%= sensor.last_temp %></span> ºF</li>
+  <li class="time_ago"><%= time_ago_in_words(sensor.last_entry_time )%> ago</li>
+  <li class="timestamp"><%= sensor.last_entry_time.strftime("%Y-%m-%d %H:%I:%S") %> </li>
+  <li><a href="#" class="update">Request Update</a></li>
+</ul>

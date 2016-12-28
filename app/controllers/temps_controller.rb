@@ -10,10 +10,10 @@ class TempsController < ApplicationController
     end
   end
 
-  def nothing
+  def index
+    @sensors = Sensor.inside
     respond_to do |format|
-      format.html { render html: "<strong>OK</strong>".html_safe}
-      format.json { render json: @resource }
+      format.html
     end
   end
 end
