@@ -34,11 +34,13 @@ function mqttConnect() {
 $(function(){
   mqttConnect();
   $(".update").click(function(e){
+    $(this).find(".fa").addClass("fa-spin");
     e.preventDefault();
     console.log("requesting update");
     message = new Paho.MQTT.Message("1");
     message.destinationName = "TEMP_REQ";
     client.send(message);
+    $(this).blur();
   });
 
   $(".mqttForm").on("submit", function(event){
@@ -68,6 +70,7 @@ function onConnectionLost(responseObject) {
 // called when a message arrives
 function onMessageArrived(message) {
   // %Y-%m-%d %H:%I:%S
+  $(".fa-spin").removeClass("fa-spin");
   var timestampText = moment().format("YYYY-MM-DD HH:mm:ss");
   var sensorId, temp;
   sensorId = message.payloadString.split(",")[0];

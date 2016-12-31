@@ -15,3 +15,16 @@
  */
  $enable-flex: true;
 @import "bootstrap";
+@import "font-awesome-sprockets";
+@import "font-awesome";
+
+nav.navbar {
+  margin-bottom: 1em;
+  i.fa {
+    transition: color 0.25s ease;
+    color: $brand-primary;
+    &:hover {
+      color: lighten($brand-primary, 15%);
+    }
+  }
+}
