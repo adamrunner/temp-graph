@@ -22,8 +22,7 @@ function outputUpdate(value) {
 
 // Create a client instance
 function mqttConnect() {
-  // client = new Paho.MQTT.Client("home.adamrunner.com", Number(1200), "rails-app" + window.session_id);
-  client = new Paho.MQTT.Client("home.adamrunner.com", Number(443), "/websockets/mqtt", "rails-app-" + window.session_id);
+  client = new Paho.MQTT.Client("temp.adamrunner.com", Number(1200), "rails-app" + window.session_id);
   // set callback handlers
   client.onConnectionLost = onConnectionLost;
   client.onMessageArrived = onMessageArrived;
