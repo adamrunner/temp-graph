@@ -1,9 +1,11 @@
-<div class="card card-block" id="<%= sensor.name %>">
-  <h4 class="card-title"><%= sensor.name %></h4>
-  <p class="card-text"><%= sensor.description %>.</p>
-  <ul>
-    <li>Latest Temp: <span class="temp"><%= sensor.last_temp %></span> ºF</li>
-    <li class="time_ago"><%= time_ago_in_words(sensor.last_entry_time )%> ago</li>
-    <li class="timestamp"><%= sensor.last_entry_time.strftime("%Y-%m-%d %H:%I:%S") %> </li>
-  </ul>
+<div class="card sensor-card" id="<%= sensor.name %>">
+  <h4 class="card-header"><%= sensor.friendly_name %></h4>
+  <p class="temp"><span class="temp_value"><%= sensor.last_temp %></span> ºF</p>
+  <div class="card-block">
+    <p class="card-text"><%= sensor.description %>.</p>
+    <span class="timestamp"><%= sensor.last_entry_time.strftime("%Y-%m-%d %H:%I:%S") %> </span>
+  </div>
+  <div class="card-footer text-muted">
+    <span class="time_ago"><%= time_ago_in_words(sensor.last_entry_time )%> ago</span>
+  </div>
 </div>

@@ -14,8 +14,9 @@
 //= require jquery_ujs
 //= require mqttws31
 //= require moment
+//= require highcharts
 //= require_tree .
-
+window.updateArrivedAt = {};
 function outputUpdate(value) {
 	document.querySelector('#outputLedValue').value = value;
 }
@@ -71,15 +72,22 @@ function onConnectionLost(responseObject) {
 function onMessageArrived(message) {
   // %Y-%m-%d %H:%I:%S
   $(".fa-spin").removeClass("fa-spin");
-  var timestampText = moment().format("YYYY-MM-DD HH:mm:ss");
+
   var sensorId, temp;
   sensorId = message.payloadString.split(",")[0];
   temp     = message.payloadString.split(",")[1];
+  updateArrivedAt[sensorId] = moment().clone();
+  var timestampText = updateArrivedAt[sensorId].format("YYYY-MM-DD HH:mm:ss");
   $sensorEl = $("#" + sensorId);
-  $sensorEl.find(".temp").text(temp);
-  //TODO: make this dynamically updating
-  // $sensorEl.find(".time_ago").text("")
+  $sensorEl.find(".temp_value").text(temp);
+  var intervalID = window.setInterval(updateTimeAgo, 30000, sensorId);
+  $sensorEl.find(".time_ago").text(updateArrivedAt[sensorId].fromNow());
   $sensorEl.find(".timestamp").text(timestampText);
 
   console.log("onMessageArrived:"+message.payloadString);
+}
+
+function updateTimeAgo(sensorId) {
+  var $sensorEl = $("#" + sensorId)
+  $sensorEl.find(".time_ago").text(updateArrivedAt[sensorId].fromNow());
 }

@@ -28,3 +28,18 @@ nav.navbar {
     }
   }
 }
+
+.sensor-card {
+  .card-header {
+    text-align: center;
+  }
+}
+
+.temp {
+  background-color: #1A730C;
+  color: whitesmoke;
+  padding: 1em;
+  text-align: center;
+  font-size: 30px;
+  margin-bottom:0;
+}
