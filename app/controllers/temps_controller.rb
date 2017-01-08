@@ -11,9 +11,16 @@ class TempsController < ApplicationController
   end
 
   def index
-    @sensors = Sensor.inside
+    @sensors = Sensor.where("name != ?", "testing")
     respond_to do |format|
       format.html
+    end
+  end
+
+  def chart_data
+    @sensors = Sensor.where("name != ?", "testing")
+    respond_to do |format|
+      format.json
     end
   end
 end

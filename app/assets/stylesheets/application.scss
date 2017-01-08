@@ -13,7 +13,7 @@
  *= require_tree .
  *= require_self
  */
- $enable-flex: true;
+$enable-flex: true;
 @import "bootstrap";
 @import "font-awesome-sprockets";
 @import "font-awesome";
@@ -42,4 +42,11 @@ nav.navbar {
   text-align: center;
   font-size: 30px;
   margin-bottom:0;
+}
+.row {
+  margin-bottom:1em;
+  margin-top:1em;
+}
+.bottom-margin {
+  margin-bottom:1em;
 }

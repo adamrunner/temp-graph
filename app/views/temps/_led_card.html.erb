@@ -21,12 +21,16 @@
     <h4 class="card-title">Power Supply Control</h4>
     <form id="psuForm" class="mqttForm">
       <input type="hidden" name="mqttTopic" class="mqttTopic" value="PSU">
-      <div class="form-group">
-        <label class="form-check-inline">
-          <input class="form-check-input mqttMessage" type="radio" name="mqttMessage" value="0"> Off
+      <div class="custom-controls-stacked">
+        <label class="custom-control custom-radio">
+          <input class="mqttMessage custom-control-input" type="radio" name="mqttMessage" value="0">
+          <span class="custom-control-indicator"></span>
+          <span class="custom-control-description">Off</span>
         </label>
-        <label class="form-check-inline">
-          <input class="form-check-input mqttMessage" type="radio" name="mqttMessage" value="1"> On
+        <label class="custom-control custom-radio">
+          <input class="mqttMessage custom-control-input" type="radio" name="mqttMessage" value="1">
+          <span class="custom-control-indicator"></span>
+          <span class="custom-control-description">On</span>
         </label>
       </div>
       <div class="form-group">

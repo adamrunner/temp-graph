@@ -1,8 +1,25 @@
-<div class="card-deck">
+<div class="card-deck bottom-margin">
   <%= render partial: 'sensor', collection: @sensors %>
+</div>
+
+<div class="card-deck bottom-margin">
   <%= render partial: 'led_card' %>
 </div>
 
-<p>
-  <button class="update btn btn-primary"><i class="fa fa-refresh"></i> Request Update</button>
-</p>
+<div class="row">
+  <div class="col">
+    <button class="update btn btn-primary"><i class="fa fa-refresh"></i> Request Update</button>
+  </div>
+</div>
+
+<%= render 'controls' %>
+
+<div class="row">
+  <div class="col">
+    <div id="tempChart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+  </div>
+</div>
+
+<script>
+  window.chartData = <%== render 'chart_data.json' %>
+</script>
