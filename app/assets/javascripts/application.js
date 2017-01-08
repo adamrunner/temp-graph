@@ -15,6 +15,9 @@
 //= require mqttws31
 //= require moment
 //= require highcharts
+//= require react
+//= require react_ujs
+//= require components
 //= require_tree .
 window.updateArrivedAt = {};
 function outputUpdate(value) {
@@ -80,6 +83,7 @@ function onMessageArrived(message) {
   var timestampText = updateArrivedAt[sensorId].format("YYYY-MM-DD HH:mm:ss");
   $sensorEl = $("#" + sensorId);
   $sensorEl.find(".temp_value").text(temp);
+  // TODO: should I be cleaning up these intervals 
   var intervalID = window.setInterval(updateTimeAgo, 30000, sensorId);
   $sensorEl.find(".time_ago").text(updateArrivedAt[sensorId].fromNow());
   $sensorEl.find(".timestamp").text(timestampText);
