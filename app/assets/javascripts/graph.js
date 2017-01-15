@@ -1,3 +1,9 @@
+Highcharts.setOptions({
+    global: {
+        timezoneOffset: 8 * 60
+    }
+});
+
 $(function () {
   var chartOptions = {
     chart: {
