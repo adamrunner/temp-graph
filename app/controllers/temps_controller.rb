@@ -1,6 +1,7 @@
 class TempsController < ApplicationController
 
   def receive
+    #TODO: Add a background worker that listens to the MQTT queue and inserts items directly into the DB
     #TODO: receive params from ESP controllers and create new database entries
     sensor_name = params[:sensor_name]
     sensor      = Sensor.find_or_create_by!(name:sensor_name)
@@ -11,14 +12,15 @@ class TempsController < ApplicationController
   end
 
   def index
-    @sensors = Sensor.where("name != ?", "testing")
+    @sensors = Sensor.inside
+    @data = @sensors.map {|s| {sensor: s, entries: s.latest_entries}  }
     respond_to do |format|
       format.html
     end
   end
 
   def chart_data
-    @sensors = Sensor.where("name != ?", "testing")
+    @data = Sensor.inside.map {|s| {sensor: s, entries: s.latest_entries}  }
     respond_to do |format|
       format.json
     end

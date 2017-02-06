@@ -1,7 +1,7 @@
 class Sensor < ApplicationRecord
   has_many :entries
 
-  scope :inside, -> { where.not(name: ['testing', 'outside'])   }
+  scope :inside, -> { where.not(name: ['testing'])   }
 
   def last_temp
     entries.last.temperature
@@ -17,5 +17,9 @@ class Sensor < ApplicationRecord
 
   def highest_logged_temp
     entries.order(temperature: :desc).first
+  end
+
+  def latest_entries
+    entries.where("created_at > ?", 1.day.ago)
   end
 end

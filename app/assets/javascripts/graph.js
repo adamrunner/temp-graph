@@ -1,4 +1,5 @@
 Highcharts.setOptions({
+  //TODO: this should be dynamic from the web app
     global: {
         timezoneOffset: 8 * 60
     }
@@ -30,32 +31,34 @@ $(function () {
     plotOptions: {
     }
   }
-  chartOptions.series = [
-    {
+  chartOptions.series = []
+
+  _.each(window.chartData, function(value, key){
+    chartOptions.series.push({
       type: 'line',
-      name: 'PDX Weather',
-      data: window.chartData["Outside"]
-    },
-    {
-      type: 'line',
-      name: 'Inside Temperature - Kitchen',
-      data: window.chartData["ESP_0BA4E4"]
-    },
-    {
-      type: 'line',
-      name: 'Inside Temperature - Living Room',
-      data: window.chartData["ESP_E2106F"]
-    },
-    {
-      type: 'line',
-      name: 'Outside Sensor',
-      data: window.chartData["ESP_299021"]
-    },
-  ]
+      name: key,
+      data: value
+    });
+  });
 
   drawChart(chartOptions);
+  configureControls();
 });
 
 function drawChart(chartOptions){
   Highcharts.chart('tempChart', chartOptions);
+}
+
+function configureControls(){
+  //TODO: Move this to backbone after I decide how it will work
+  var $from       = $("#from");
+  var $to         = $("#to");
+  var $resolution = $("#resolution");
+  var $perPage    = $("#per_page");
+  var $go         = $("#go");
+  var $backDay    = $("#minus-one-day");
+  var $forwardDay = $("#add-one-day");
+  var $yesterday  = $("#yesterday");
+  var $today      = $("#today");
+
 }

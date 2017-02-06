@@ -15,6 +15,7 @@
 //= require mqttws31
 //= require moment
 //= require highcharts
+//= require lodash
 //= require_tree .
 window.updateArrivedAt = {};
 function outputUpdate(value) {
