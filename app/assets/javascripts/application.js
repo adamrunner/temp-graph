@@ -45,10 +45,20 @@ $(function(){
     $(this).blur();
   });
 
+  $('[data-mqtt-topic]').on('click', function(event){
+    event.preventDefault();
+    $(this).blur();
+    var topic   = $(this).data('mqtt-topic');
+    var value   = $(this).data('mqtt-value').toString();
+    var message = new Paho.MQTT.Message(value);
+    message.destinationName = topic;
+    client.send(message);
+  });
+
   $(".mqttForm").on("submit", function(event){
     event.preventDefault();
     var value = $(event.target).find('.mqttMessage:checked').val() || $(event.target).find('.mqttMessage').val()
-    message = new Paho.MQTT.Message(value);
+    var message = new Paho.MQTT.Message(value);
     message.destinationName = $(event.target).find('input:hidden').val();
     client.send(message);
   })
@@ -73,18 +83,39 @@ function onConnectionLost(responseObject) {
 function onMessageArrived(message) {
   // %Y-%m-%d %H:%I:%S
   $(".fa-spin").removeClass("fa-spin");
+  // regex to see what type of message we see
+  // stopping pump
+  // starting pump
+  // ssss,dd.dd
+  // LED
+  if(message.payloadString.match(/PSU ON/)){
+    $(".pump-inner").removeClass("spinner")
+  }
 
-  var sensorId, temp;
-  sensorId = message.payloadString.split(",")[0];
-  temp     = message.payloadString.split(",")[1];
-  updateArrivedAt[sensorId] = moment().clone();
-  var timestampText = updateArrivedAt[sensorId].format("YYYY-MM-DD HH:mm:ss");
-  $sensorEl = $("#" + sensorId);
-  $sensorEl.find(".temp_value").text(temp);
-  var intervalID = window.setInterval(updateTimeAgo, 30000, sensorId);
-  $sensorEl.find(".time_ago").text(updateArrivedAt[sensorId].fromNow());
-  $sensorEl.find(".timestamp").text(timestampText);
-
+  if(message.payloadString.match(/Stopping Pump/)){
+    $(".pump-inner").removeClass("spinner")
+  }
+  if(message.payloadString.match(/Starting Pump/)){
+    $(".pump-inner").addClass("spinner")
+  }
+  if(message.payloadString.match(/\s+,\d\d\..+/)){
+    var sensorId, temp;
+    sensorId = message.payloadString.split(",")[0];
+    temp     = message.payloadString.split(",")[1];
+    updateArrivedAt[sensorId] = moment().clone();
+    var timestampText = updateArrivedAt[sensorId].format("YYYY-MM-DD HH:mm:ss");
+    $sensorEl = $("#" + sensorId);
+    $sensorEl.find(".temp_value").text(temp);
+    var intervalID = window.setInterval(updateTimeAgo, 30000, sensorId);
+    $sensorEl.find(".time_ago").text(updateArrivedAt[sensorId].fromNow());
+    $sensorEl.find(".timestamp").text(timestampText);
+  }
+  if(message.payloadString.match(/LED.+/)){
+    var ledValue = message.payloadString.split(":")[1]
+    outputUpdate(ledValue);
+    var opacity = parseInt(ledValue, 10) / 1024
+    $("#plantLedBulb").css({opacity: opacity})
+  }
   console.log("onMessageArrived:"+message.payloadString);
 }
 

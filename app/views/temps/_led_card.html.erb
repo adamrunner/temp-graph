@@ -9,30 +9,8 @@
         	step="1" oninput="outputUpdate(value)">
         <output for="ledValue" id="outputLedValue">50</output>
       </div>
-      <div class="form-group">
-        <button type="submit" class="btn btn-primary">Save</button>
-      </div>
-    </form>
-  </div>
-</div>
 
-<div class="card">
-  <div class="card-block">
-    <h4 class="card-title">Power Supply Control</h4>
-    <form id="psuForm" class="mqttForm">
-      <input type="hidden" name="mqttTopic" class="mqttTopic" value="PSU">
-      <div class="custom-controls-stacked">
-        <label class="custom-control custom-radio">
-          <input class="mqttMessage custom-control-input" type="radio" name="mqttMessage" value="0">
-          <span class="custom-control-indicator"></span>
-          <span class="custom-control-description">Off</span>
-        </label>
-        <label class="custom-control custom-radio">
-          <input class="mqttMessage custom-control-input" type="radio" name="mqttMessage" value="1">
-          <span class="custom-control-indicator"></span>
-          <span class="custom-control-description">On</span>
-        </label>
-      </div>
+      <i class="fa fa-lightbulb-o fa-2x" id="plantLedBulb" aria-hidden="true"></i>
       <div class="form-group">
         <button type="submit" class="btn btn-primary">Save</button>
       </div>

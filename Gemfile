@@ -18,6 +18,7 @@ gem 'pry-rails'
 # gem 'therubyracer', platforms: :ruby
 gem 'bootstrap', '~> 4.0.0.alpha6'
 gem 'font-awesome-sass'
+gem 'inline_svg'
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder

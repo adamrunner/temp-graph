@@ -4,10 +4,12 @@
 
 <div class="card-deck bottom-margin">
   <%= render partial: 'led_card' %>
+  <%= render partial: 'psu_card' %>
+  <%= render partial: 'pump_card' %>
 </div>
 
 <div class="row">
-  <div class="col">
+  <div class="col-3">
     <button class="update btn btn-primary"><i class="fa fa-refresh"></i> Request Update</button>
   </div>
 </div>
@@ -22,4 +24,5 @@
 
 <script>
   window.chartData = <%== render 'chart_data.json' %>
+  window.sensorData = <%== render 'sensor_data.json' %>
 </script>
