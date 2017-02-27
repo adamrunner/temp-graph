@@ -13,7 +13,8 @@ class TempsController < ApplicationController
 
   def index
     @sensors = Sensor.inside
-    @data = @sensors.map {|s| {sensor: s, entries: s.latest_entries}  }
+    @data    = @sensors.map {|s| {sensor: s, entries: s.latest_entries} }
+    @devices = Device.all
     respond_to do |format|
       format.html
     end

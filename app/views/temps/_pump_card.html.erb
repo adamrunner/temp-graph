@@ -3,7 +3,7 @@
     <h4 class="card-title">Water Pump Control</h4>
     <button data-mqtt-topic="PUMP" data-mqtt-value="0" class="btn btn-primary">Off</button>
     <button data-mqtt-topic="PUMP" data-mqtt-value="1" class="btn btn-primary">On</button>
-    <div class="water_pump">
+    <div class="water_pump <%= device.on? ? "spinner" : "" %> ">
       <%= inline_svg("water_pump.svg") %>
     </div>
   </div>

@@ -3,9 +3,7 @@
 </div>
 
 <div class="card-deck bottom-margin">
-  <%= render partial: 'led_card' %>
-  <%= render partial: 'psu_card' %>
-  <%= render partial: 'pump_card' %>
+  <%= render partial: 'device', collection: @devices %>
 </div>
 
 <div class="row">

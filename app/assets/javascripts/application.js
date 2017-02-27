@@ -93,10 +93,10 @@ function onMessageArrived(message) {
   }
 
   if(message.payloadString.match(/Stopping Pump/)){
-    $(".pump-inner").removeClass("spinner")
+    $(".water_pump").removeClass("spinner")
   }
   if(message.payloadString.match(/Starting Pump/)){
-    $(".pump-inner").addClass("spinner")
+    $(".water_pump").addClass("spinner")
   }
   if(message.payloadString.match(/\s+,\d\d\..+/)){
     var sensorId, temp;

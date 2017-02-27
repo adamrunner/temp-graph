@@ -5,12 +5,12 @@
       <input type="hidden" name="mqttTopic" class="mqttTopic" value="PSU">
       <div class="custom-controls-stacked">
         <label class="custom-control custom-radio">
-          <input class="mqttMessage custom-control-input" type="radio" name="mqttMessage" value="0">
+          <%= radio_button_tag 'mqttMessage', '0', device.off?, class: "mqttMessage custom-control-input" %>
           <span class="custom-control-indicator"></span>
           <span class="custom-control-description">Off</span>
         </label>
         <label class="custom-control custom-radio">
-          <input class="mqttMessage custom-control-input" type="radio" name="mqttMessage" value="1">
+          <%= radio_button_tag 'mqttMessage', '1', device.on?, class: "mqttMessage custom-control-input" %>
           <span class="custom-control-indicator"></span>
           <span class="custom-control-description">On</span>
         </label>

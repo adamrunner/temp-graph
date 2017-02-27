@@ -5,9 +5,9 @@
       <div class="form-group">
         <label for="ledValue">Brightness</label>
         <input type="hidden" name="mqttTopic" class="mqttTopic" value="LED">
-        <input type="range" min="0" max="1024" value="50" id="ledValue" class="mqttMessage"
+        <input type="range" min="0" max="1024" value="<%= device.latest_entry.state.to_i %>" id="ledValue" class="mqttMessage"
         	step="1" oninput="outputUpdate(value)">
-        <output for="ledValue" id="outputLedValue">50</output>
+        <output for="ledValue" id="outputLedValue"><%= device.latest_entry.state.to_i %></output>
       </div>
 
       <i class="fa fa-lightbulb-o fa-2x" id="plantLedBulb" aria-hidden="true"></i>
