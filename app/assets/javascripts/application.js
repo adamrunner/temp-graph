@@ -17,6 +17,8 @@
 //= require highcharts
 //= require lodash
 //= require_tree .
+
+var mqttDisconnectedAlert = '<div class="alert alert-danger" role="alert"><strong>Uh oh!</strong>Cannot connect to MQTT Server, reload the page.</div>';
 window.updateArrivedAt = {};
 function outputUpdate(value) {
 	document.querySelector('#outputLedValue').value = value;
@@ -39,16 +41,27 @@ $(function(){
     $(this).find(".fa").addClass("fa-spin");
     e.preventDefault();
     console.log("requesting update");
+    $.post("/request_update")
     message = new Paho.MQTT.Message("1");
     message.destinationName = "TEMP_REQ";
     client.send(message);
     $(this).blur();
   });
 
+  $('[data-mqtt-topic]').on('click', function(event){
+    event.preventDefault();
+    $(this).blur();
+    var topic   = $(this).data('mqtt-topic');
+    var value   = $(this).data('mqtt-value').toString();
+    var message = new Paho.MQTT.Message(value);
+    message.destinationName = topic;
+    client.send(message);
+  });
+
   $(".mqttForm").on("submit", function(event){
     event.preventDefault();
     var value = $(event.target).find('.mqttMessage:checked').val() || $(event.target).find('.mqttMessage').val()
-    message = new Paho.MQTT.Message(value);
+    var message = new Paho.MQTT.Message(value);
     message.destinationName = $(event.target).find('input:hidden').val();
     client.send(message);
   })
@@ -59,11 +72,13 @@ function onConnect() {
   // Once a connection has been made, make a subscription and send a message.
   console.log("onConnect");
   client.subscribe("outTopic");
+	client.subscribe("debugMessages");
 }
 
 // called when the client loses its connection
 function onConnectionLost(responseObject) {
   if (responseObject.errorCode !== 0) {
+		$(".container").prepend(mqttDisconnectedAlert);
     console.log("onConnectionLost:"+responseObject.errorMessage);
     client.connect({onSuccess:onConnect, useSSL: true});
   }
@@ -73,18 +88,46 @@ function onConnectionLost(responseObject) {
 function onMessageArrived(message) {
   // %Y-%m-%d %H:%I:%S
   $(".fa-spin").removeClass("fa-spin");
+  // regex to see what type of message we see
+  // stopping pump
+  // starting pump
+  // ssss,dd.dd
+  // LED
+  if(message.payloadString.match(/PSU,ON/)){
+		$("#psuForm").find("#mqttMessage_1").prop("checked", true);
+    $("#psuForm").find("#mqttMessage_0").prop("checked", false);
+  }
 
-  var sensorId, temp;
-  sensorId = message.payloadString.split(",")[0];
-  temp     = message.payloadString.split(",")[1];
-  updateArrivedAt[sensorId] = moment().clone();
-  var timestampText = updateArrivedAt[sensorId].format("YYYY-MM-DD HH:mm:ss");
-  $sensorEl = $("#" + sensorId);
-  $sensorEl.find(".temp_value").text(temp);
-  var intervalID = window.setInterval(updateTimeAgo, 30000, sensorId);
-  $sensorEl.find(".time_ago").text(updateArrivedAt[sensorId].fromNow());
-  $sensorEl.find(".timestamp").text(timestampText);
+	if(message.payloadString.match(/PSU,OFF/)){
+    $("#psuForm").find("#mqttMessage_1").prop("checked", false);
+    $("#psuForm").find("#mqttMessage_0").prop("checked", true);
+  }
 
+  if(message.payloadString.match(/PUMP,OFF/)){
+    $(".water_pump").removeClass("spinner")
+  }
+  if(message.payloadString.match(/PUMP,ON/)){
+    $(".water_pump").addClass("spinner")
+  }
+
+  if(message.payloadString.match(/ESP_.+/)){
+    var sensorId, temp;
+    sensorId = message.payloadString.split(",")[0];
+    temp     = message.payloadString.split(",")[1];
+    updateArrivedAt[sensorId] = moment().clone();
+    var timestampText = updateArrivedAt[sensorId].format("YYYY-MM-DD HH:mm:ss");
+    $sensorEl = $("#" + sensorId);
+    $sensorEl.find(".temp_value").text(temp);
+    var intervalID = window.setInterval(updateTimeAgo, 30000, sensorId);
+    $sensorEl.find(".time_ago").text(updateArrivedAt[sensorId].fromNow());
+    $sensorEl.find(".timestamp").text(timestampText);
+  }
+  if(message.payloadString.match(/LED.+/)){
+    var ledValue = message.payloadString.split(",")[1]
+    outputUpdate(ledValue);
+    var opacity = parseInt(ledValue, 10) / 1024
+    $("#plantLedBulb").css({opacity: opacity})
+  }
   console.log("onMessageArrived:"+message.payloadString);
 }
 

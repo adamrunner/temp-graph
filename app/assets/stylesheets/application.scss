@@ -15,6 +15,7 @@
  */
 $enable-flex: true;
 @import "bootstrap";
+@import "mixins/spin";
 @import "font-awesome-sprockets";
 @import "font-awesome";
 
@@ -49,4 +50,17 @@ nav.navbar {
 }
 .bottom-margin {
   margin-bottom:1em;
+}
+
+.spinner .pump-inner {
+  animation: spin 2100ms infinite linear;
+  transform-origin: center;
+}
+
+.water_pump {
+  background-color: darken($brand-primary, 10%);
+  padding: 10px;
+  border-radius: 5px;
+  margin-top: 2em;
+  fill: white;
 }
