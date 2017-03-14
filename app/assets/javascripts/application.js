@@ -94,11 +94,13 @@ function onMessageArrived(message) {
   // ssss,dd.dd
   // LED
   if(message.payloadString.match(/PSU,ON/)){
-		//TODO: update power supply controls
+		$("#psuForm").find("#mqttMessage_1").prop("checked", true);
+    $("#psuForm").find("#mqttMessage_0").prop("checked", false);
   }
 
 	if(message.payloadString.match(/PSU,OFF/)){
-		//TODO: update power supply controls
+    $("#psuForm").find("#mqttMessage_1").prop("checked", false);
+    $("#psuForm").find("#mqttMessage_0").prop("checked", true);
   }
 
   if(message.payloadString.match(/PUMP,OFF/)){

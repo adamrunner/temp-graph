@@ -13,7 +13,6 @@ task :mqtt_watcher => :environment do
     MQTT::Client.connect('temp.adamrunner.com') do |c|
       c.get('outTopic') do |topic,message|
         msg = message.split(',')
-        #TODO: Do nothing unless message matches intended format
         if sensor_names.include?(msg[0])
           sensor      = Sensor.find_or_create_by!(name:msg[0])
           sensor.entries.create(temperature: msg[1])
