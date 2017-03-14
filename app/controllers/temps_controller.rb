@@ -20,6 +20,13 @@ class TempsController < ApplicationController
     end
   end
 
+  def request_update
+    ForecastIoWorker.perform_async
+    respond_to do |format|
+      format.json { render json: {success: true}, status: :ok }
+    end
+  end
+
   def chart_data
     @data = Sensor.inside.map {|s| {sensor: s, entries: s.latest_entries}  }
     respond_to do |format|

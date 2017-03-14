@@ -17,6 +17,8 @@
 //= require highcharts
 //= require lodash
 //= require_tree .
+
+var mqttDisconnectedAlert = '<div class="alert alert-danger" role="alert"><strong>Uh oh!</strong>Cannot connect to MQTT Server, reload the page.</div>';
 window.updateArrivedAt = {};
 function outputUpdate(value) {
 	document.querySelector('#outputLedValue').value = value;
@@ -39,6 +41,7 @@ $(function(){
     $(this).find(".fa").addClass("fa-spin");
     e.preventDefault();
     console.log("requesting update");
+    $.post("/request_update")
     message = new Paho.MQTT.Message("1");
     message.destinationName = "TEMP_REQ";
     client.send(message);
@@ -69,11 +72,13 @@ function onConnect() {
   // Once a connection has been made, make a subscription and send a message.
   console.log("onConnect");
   client.subscribe("outTopic");
+	client.subscribe("debugMessages");
 }
 
 // called when the client loses its connection
 function onConnectionLost(responseObject) {
   if (responseObject.errorCode !== 0) {
+		$(".container").prepend(mqttDisconnectedAlert);
     console.log("onConnectionLost:"+responseObject.errorMessage);
     client.connect({onSuccess:onConnect, useSSL: true});
   }
@@ -88,17 +93,22 @@ function onMessageArrived(message) {
   // starting pump
   // ssss,dd.dd
   // LED
-  if(message.payloadString.match(/PSU ON/)){
-    $(".pump-inner").removeClass("spinner")
+  if(message.payloadString.match(/PSU,ON/)){
+		//TODO: update power supply controls
   }
 
-  if(message.payloadString.match(/Stopping Pump/)){
+	if(message.payloadString.match(/PSU,OFF/)){
+		//TODO: update power supply controls
+  }
+
+  if(message.payloadString.match(/PUMP,OFF/)){
     $(".water_pump").removeClass("spinner")
   }
-  if(message.payloadString.match(/Starting Pump/)){
+  if(message.payloadString.match(/PUMP,ON/)){
     $(".water_pump").addClass("spinner")
   }
-  if(message.payloadString.match(/\s+,\d\d\..+/)){
+
+  if(message.payloadString.match(/ESP_.+/)){
     var sensorId, temp;
     sensorId = message.payloadString.split(",")[0];
     temp     = message.payloadString.split(",")[1];
@@ -111,7 +121,7 @@ function onMessageArrived(message) {
     $sensorEl.find(".timestamp").text(timestampText);
   }
   if(message.payloadString.match(/LED.+/)){
-    var ledValue = message.payloadString.split(":")[1]
+    var ledValue = message.payloadString.split(",")[1]
     outputUpdate(ledValue);
     var opacity = parseInt(ledValue, 10) / 1024
     $("#plantLedBulb").css({opacity: opacity})
