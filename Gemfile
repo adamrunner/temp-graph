@@ -29,6 +29,7 @@ gem 'sidekiq'
 gem 'sidekiq-unique-jobs'
 gem 'mqtt'
 gem 'forecast_io'
+gem 'twilio-ruby'
 
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 3.0'

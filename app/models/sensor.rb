@@ -3,6 +3,9 @@ class Sensor < ApplicationRecord
 
   scope :inside, -> { where.not(name: ['testing'])   }
 
+  # NOTE: Causes N+1 queries - could write as custom SQL maybe? 
+  scope :not_reporting, -> { inside.select {|s| s.last_entry_time <  5.minutes.ago } }
+
   def last_temp
     entries.last.temperature
   end
