@@ -18,7 +18,7 @@
 //= require lodash
 //= require_tree .
 
-var mqttDisconnectedAlert = '<div class="alert alert-danger" role="alert"><strong>Uh oh!</strong>Cannot connect to MQTT Server, reload the page.</div>';
+var mqttDisconnectedAlert = '<div class="alert alert-danger" role="alert"><strong>Uh oh! </strong>Cannot connect to MQTT Server, reload the page.</div>';
 window.updateArrivedAt = {};
 function outputUpdate(value) {
 	document.querySelector('#outputLedValue').value = value;
