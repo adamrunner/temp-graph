@@ -29,7 +29,7 @@ set :rbenv_ruby, File.read('.ruby-version').strip
 
 # Default value for linked_dirs is []
 # set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/system')
-
+set :linked_dirs, fetch(:linked_dirs, []).push('shared')
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
 
@@ -37,7 +37,10 @@ set :rbenv_ruby, File.read('.ruby-version').strip
 # set :keep_releases, 5
 
 namespace :deploy do
-
+  task :restart do
+    sudo "/etc/init.d/unicorn_temp_graph upgrade"
+  end
+  
   after :restart, :clear_cache do
     on roles(:web), in: :groups, limit: 3, wait: 10 do
       # Here we can do anything such as:
