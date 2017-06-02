@@ -30,6 +30,8 @@ gem 'sidekiq-unique-jobs'
 gem 'mqtt'
 gem 'forecast_io'
 gem 'aws-sdk-sns'
+gem 'unicorn'
+
 
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 3.0'
@@ -46,7 +48,6 @@ group :development do
   gem 'capistrano-rails'
   gem 'capistrano-rbenv'
   gem 'capistrano-bundler'
-  gem 'capistrano-passenger'
   # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
   gem 'web-console'
   gem 'listen', '~> 3.0.5'
