@@ -1,0 +1,46 @@
+#! /bin/bash
+
+### BEGIN INIT INFO
+# Provides:          mqtt_watcher
+# Required-Start:    $all
+# Required-Stop:     $all
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: starts the mqtt_watcher task
+# Description:       starts the mqtt_watcher task
+### END INIT INFO
+
+# Some things that run always
+export RAILS_ENV=production
+RBENV_EXEC="/home/adamrunner/.rbenv/bin/rbenv exec"
+BUNDLE_EXEC="bundle exec rake temp_graph:mqtt_watcher"
+APP_DIR="/var/www/temp.adamrunner.com"
+CURRENT_DIR="$APP_DIR/current"
+LOG_DIR="$CURRENT_DIR/log"
+LOG_FILE="$LOG_DIR/mqtt_watcher.log"
+PID_DIR="$APP_DIR/shared/pids"
+APP_USER="adamrunner"
+TASK_PID_FILE="$PID_DIR/mqtt_watcher.pid"
+
+
+case "$1" in
+  start)
+    cd $CURRENT_DIR
+    su $APP_USER -c "nohup $RBENV_EXEC $BUNDLE_EXEC > $LOG_FILE 2>&1" & echo $! > $TASK_PID_FILE
+  ;;
+  stop)
+    kill -QUIT `cat $TASK_PID_FILE`
+    rm $TASK_PID_FILE
+    #  ps aux | grep -ie rake | grep -v grep | awk '{print $2}' | xargs kill -QUIT
+  ;;
+  restart)
+    service mqtt_watcher stop
+    service mqtt_watcher start
+  ;;
+  *)
+    echo "Usage: /etc/init.d/mqtt_watcher {start|stop|restart}"
+    exit 1
+    ;;
+esac
+
+exit 0
