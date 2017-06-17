@@ -3,7 +3,7 @@ class Sensor < ApplicationRecord
 
   scope :inside, -> { where.not(name: ['testing'])   }
 
-  # NOTE: Causes N+1 queries - could write as custom SQL maybe? 
+  # NOTE: Causes N+1 queries - could write as custom SQL maybe?
   scope :not_reporting, -> { inside.select {|s| s.last_entry_time <  5.minutes.ago } }
 
   def last_temp
@@ -23,6 +23,6 @@ class Sensor < ApplicationRecord
   end
 
   def latest_entries
-    entries.where("created_at > ?", 1.day.ago)
+    entries.where("created_at > ?", 1.day.ago).order(:created_at)
   end
 end
