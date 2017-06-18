@@ -36,9 +36,11 @@ set :linked_dirs, fetch(:linked_dirs, []).push('log')
 # Default value for keep_releases is 5
 # set :keep_releases, 5
 
+after 'deploy:published', 'deploy:restart'
+
 namespace :deploy do
   task :restart do
-    sudo "/etc/init.d/unicorn_temp_graph upgrade"
+    execute "sudo /etc/init.d/unicorn_temp_graph upgrade"
   end
 
   after :restart, :clear_cache do
