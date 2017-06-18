@@ -40,7 +40,9 @@ after 'deploy:published', 'deploy:restart'
 
 namespace :deploy do
   task :restart do
-    execute "sudo /etc/init.d/unicorn_temp_graph upgrade"
+    on roles(:app) do
+      execute "sudo /etc/init.d/unicorn_temp_graph upgrade"
+    end
   end
 
   after :restart, :clear_cache do
