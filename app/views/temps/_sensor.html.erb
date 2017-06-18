@@ -4,8 +4,8 @@
   <div class="card-block">
     <p class="card-text"><%= sensor.description %>.</p>
     <p class="timestamp"><%= sensor.last_entry_time.strftime("%Y-%m-%d %H:%I:%S %Z") %> </p>
-    <p>Highest: <%= sensor.highest_logged_temp.temperature %> ºF</p>
-    <p>Lowest: <%= sensor.lowest_logged_temp.temperature %> ºF</p>
+    <p>Highest: <%= sensor.highest_logged_temp %> ºF</p>
+    <p>Lowest: <%= sensor.lowest_logged_temp %> ºF</p>
   </div>
   <div class="card-footer">
     <small class="text-muted time_ago"><%= time_ago_in_words(sensor.last_entry_time )%> ago</small>

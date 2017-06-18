@@ -7,19 +7,19 @@ class Sensor < ApplicationRecord
   scope :not_reporting, -> { inside.select {|s| s.last_entry_time <  5.minutes.ago } }
 
   def last_temp
-    entries.last.temperature
+    entries.last.try(:temperature)
   end
 
   def last_entry_time
-    entries.last.created_at
+    entries.last.try(:created_at)
   end
 
   def lowest_logged_temp
-    entries.order(:temperature).first
+    entries.order(:temperature).first.try(:temperature)
   end
 
   def highest_logged_temp
-    entries.order(temperature: :desc).first
+    entries.order(temperature: :desc).first.try(:temperature)
   end
 
   def latest_entries
