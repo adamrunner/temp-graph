@@ -1,6 +1,16 @@
 <div class="card sensor-card" id="<%= sensor.name %>">
+
+  <%= link_to toggle_sensor_path(sensor.id), class: 'close-card', method: :post do %>
+    <span class="fa fa-times"></span>
+  <% end %>
+
   <h4 class="card-header"><%= sensor.friendly_name %></h4>
-  <p class="temp"><span class="temp_value"><%= sensor.last_temp %></span> ºF</p>
+  <ul class="temperature-info">
+    <li class="heading">Latest Reading:</li>
+    <li class="temperature-value"><span class="temp_value"><%= sensor.last_temp %></span> ºF</li>
+    <li class="heading">Average Reading:</li>
+    <li class="temperature-value"><span class="temp_value"><%= sensor.average_temp %></span> ºF</li>
+  </ul>
   <div class="card-block">
     <p class="card-text"><%= sensor.description %>.</p>
     <p class="timestamp"><%= format_time(sensor.last_entry_time) %> </p>

@@ -16,10 +16,24 @@
 //= require moment
 //= require highcharts
 //= require lodash
+//= require bootstrap-sprockets
 //= require_tree .
 
 var mqttDisconnectedAlert = '<div class="alert alert-danger" role="alert"><strong>Uh oh! </strong>Cannot connect to MQTT Server, reload the page.</div>';
+$(function(){
+  $('button[data-toggle-show], a[data-toggle-show], input[data-toggle-show]').each(function() {
+    $(this).on('click', function() {
+      var selectorToToggle;
+      selectorToToggle = "#" + $(this).data('toggle-show');
+      $(selectorToToggle).toggleClass('hidden');
+    });
+  });
+});
+
+
 window.updateArrivedAt = {};
+
+
 function outputUpdate(value) {
 	document.querySelector('#outputLedValue').value = value;
 }

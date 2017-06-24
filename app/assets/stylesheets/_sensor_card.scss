@@ -1,0 +1,40 @@
+.sensor-card {
+  .card-header {
+    text-align: center;
+  }
+}
+
+.close-card {
+  position: absolute;
+  top: 0;
+  right: 5px;
+  color: lighten($brand-danger, 20%);
+  &:hover, &:focus {
+    color: $brand-danger;
+  }
+  transition: color 200ms;
+}
+
+
+ul.temperature-info {
+  list-style: none;
+  padding-left: 0;
+}
+
+ul.temperature-info .heading {
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 1em;
+  &:first-child{
+    margin-top: 0;
+  }
+}
+
+li.temperature-value {
+  font-size: 24px;
+  text-align: center;
+  padding: 10px 0;
+  color: whitesmoke;
+  background-color: #1A730C;
+}

@@ -9,6 +9,15 @@ class SensorsController < ApplicationController
     end
   end
 
+  def toggle
+    @sensor.toggle_visibility!
+
+    respond_to do |format|
+      format.html { redirect_to :back, notice: "Updated sensor display!"}
+      format.json { render json: @sensor }
+    end
+  end
+
   def show
     respond_to do |format|
       format.html

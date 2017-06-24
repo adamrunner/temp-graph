@@ -9,10 +9,13 @@
 <div class="row">
   <div class="col-3">
     <button class="update btn btn-primary"><i class="fa fa-refresh"></i> Request Update</button>
+    <button class="btn btn-primary" data-toggle-show="chart-controls"><i class="fa fa-eye"></i> Toggle Chart Controls</button>
   </div>
 </div>
 
-<%= render 'controls' %>
+<div id="chart-controls" class="hidden">
+  <%= render 'controls' %>
+</div>
 
 <div class="row">
   <div class="col">

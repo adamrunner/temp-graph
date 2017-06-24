@@ -7,4 +7,10 @@ Rails.application.routes.draw do
   get 'temp', to: 'temps#receive'
   post 'request_update', to: 'temps#request_update'
   mount Sidekiq::Web => '/sidekiq'
+  resources :sensors do
+    member do
+      post :toggle
+    end
+    resources :entries
+  end
 end

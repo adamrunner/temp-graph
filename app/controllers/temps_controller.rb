@@ -1,4 +1,6 @@
 class TempsController < ApplicationController
+  before_action :load_sensors, only: [:chart_data, :index]
+  # before_filter :load_devices, only: []
 
   def receive
     sensor_name = params[:sensor_name]
@@ -10,9 +12,7 @@ class TempsController < ApplicationController
   end
 
   def index
-    @sensors = Sensor.inside.with_entries
     @data    = @sensors.map {|s| {sensor: s, entries: s.latest_entries} }
-    # @devices = Device.all
     respond_to do |format|
       format.html
     end
@@ -26,9 +26,20 @@ class TempsController < ApplicationController
   end
 
   def chart_data
-    @data = Sensor.inside.map {|s| {sensor: s, entries: s.latest_entries}  }
+    @data = @sensors.map {|s| {sensor: s, entries: s.latest_entries}  }
     respond_to do |format|
       format.json
     end
+  end
+
+  private
+
+  def load_sensors
+    @all_sensors = Sensor.inside
+    @sensors     = Sensor.inside.with_entries.visible
+  end
+
+  def load_devices
+    @devices = Device.all
   end
 end
