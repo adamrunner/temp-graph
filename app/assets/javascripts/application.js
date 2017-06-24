@@ -13,6 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require mqttws31
+//= require tether
 //= require moment
 //= require highcharts
 //= require lodash
