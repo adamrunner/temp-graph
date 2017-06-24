@@ -32,10 +32,12 @@ class Sensor < ApplicationRecord
   end
 
   def average_temp(time = 6.hours.ago)
-    if entries.count > 0
-      entries.where("created_at > ?", time).average(:temperature).round(2)
-    else
-      0.0
+    temp = entries.where("created_at > ?", time).average(:temperature)
+
+    if temp.nil?
+      temp = 0.0
     end
+
+    temp.round(2)
   end
 end
