@@ -3,11 +3,11 @@ namespace :temp_graph do
   task :mqtt_watcher => :environment do
 
     def sensor_names
-      @sensor_names ||= Sensor.pluck(:name)
+      Sensor.pluck(:name)
     end
 
     def device_names
-      @device_names ||= Device.pluck(:name)
+      Device.pluck(:name)
     end
 
     def perform
